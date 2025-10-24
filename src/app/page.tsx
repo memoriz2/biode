@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { bannerNews } from "@/types/bannerNews";
@@ -118,6 +118,8 @@ interface History {
 }
 
 export default function BIODEHomePage() {
+  const firstSliderImageRef = useRef<HTMLImageElement | null>(null);
+  const [verticalSliderHeightPx, setVerticalSliderHeightPx] = useState<number | null>(null);
   const [video, setVideo] = useState<Video | null>(null);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [currentBannerIndex, setCurrentBannerIndex] = useState<number>(0);
@@ -164,6 +166,48 @@ export default function BIODEHomePage() {
     return () => {
       document.head.removeChild(style);
     };
+  }, []);
+
+  // 세로 슬라이더: 뷰포트 진입 시 부드러운 등장 클래스 토글
+  useEffect(() => {
+    const slides = Array.from(
+      document.querySelectorAll<HTMLElement>(".biode-vertical-slider__slide")
+    );
+    if (slides.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-inview");
+          }
+        });
+      },
+      { root: document.querySelector(".biode-vertical-slider__viewport"), threshold: 0.6 }
+    );
+
+    slides.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  // 세로 슬라이더: 첫 이미지 비율에 맞춰 섹션 높이를 고정
+  useEffect(() => {
+    const computeHeight = () => {
+      const img = firstSliderImageRef.current;
+      if (!img) return;
+      const vw = window.innerWidth;
+      if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+        const h = Math.round((vw * img.naturalHeight) / img.naturalWidth);
+        setVerticalSliderHeightPx(h);
+      } else {
+        const rect = img.getBoundingClientRect();
+        if (rect.height > 0) setVerticalSliderHeightPx(Math.round(rect.height));
+      }
+    };
+
+    computeHeight();
+    window.addEventListener("resize", computeHeight);
+    return () => window.removeEventListener("resize", computeHeight);
   }, []);
 
   // 배너 자동 로테이션 (5초 간격)
@@ -603,44 +647,34 @@ export default function BIODEHomePage() {
         </section>
       )}
 
-      <main className="biode-home__container">
-        {/* 기본 히어로 섹션 (배너가 없을 때) */}
-        {banners.length === 0 && (
-          <section className="mb-12 bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 py-20 rounded-lg relative overflow-hidden text-center">
-            {/* 배경 패턴 */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 left-0 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-              <div className="absolute top-0 right-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
-              <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
-            </div>
-
-            <div className="relative z-10 text-center">
-              <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                혁신적인 웹 개발로
-                <span className="text-green-600"> 비즈니스 성장</span>을
-              </h2>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-                최신 기술과 창의적인 디자인으로 귀사의 디지털 전환을
-                이끌어드립니다. 사용자 중심의 웹사이트와 웹 애플리케이션으로
-                비즈니스 가치를 극대화하세요.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/biode/inquiry"
-                  className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                >
-                  문의하기
-                </Link>
-                <Link
-                  href="/biode/projects"
-                  className="border-2 border-green-600 text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-600 hover:text-white transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                >
-                  프로젝트 보기
-                </Link>
-              </div>
-            </div>
-          </section>
-        )}
+      {/* 새 섹션: 한 번에 이미지 하나, 세로 스와이프/스크롤로 다음 이미지가 올라옴 */}
+      <section className="biode-vertical-slider" aria-label="BIODE 제품 미리보기">
+        <div className="biode-vertical-slider__viewport" aria-live="polite" style={verticalSliderHeightPx ? { height: `${verticalSliderHeightPx}px` } : undefined}>
+          <div className="biode-vertical-slider__slide is-inview" aria-label="미리보기 이미지 1">
+            <img
+              ref={firstSliderImageRef}
+              src="/Homepage_2.png"
+              alt="BIODE 미리보기 1"
+              className="biode-vertical-slider__img"
+              onLoad={() => {
+                const img = firstSliderImageRef.current;
+                if (!img) return;
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                  const vw = window.innerWidth;
+                  const h = Math.round((vw * img.naturalHeight) / img.naturalWidth);
+                  setVerticalSliderHeightPx(h);
+                }
+              }}
+            />
+          </div>
+          <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 2">
+            <img src="/Homepage_3.png" alt="BIODE 미리보기 2" className="biode-vertical-slider__img" />
+          </div>
+          <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 3">
+            <img src="/Homepage_4.png" alt="BIODE 미리보기 3" className="biode-vertical-slider__img" />
+          </div>
+        </div>
+      </section>
 
         {/* 인사말 섹션 */}
         {greeting && (
@@ -907,7 +941,7 @@ export default function BIODEHomePage() {
             </div>
           </div>
         </section>
-      </main>
+
     </div>
   );
 }
