@@ -651,10 +651,6 @@ export default function BIODEHomePage() {
     );
   }
 
-  // 현재 배너 계산
-  const currentBanner =
-    banners.length > 0 ? banners[currentBannerIndex % banners.length] : null;
-
   return (
     <div className="biode-home">
       <OrganizationStructuredData
@@ -678,18 +674,39 @@ export default function BIODEHomePage() {
         }}
       />
 
-      {/* 배너 섹션 - 배열에서 현재 배너만 표시 (이미지 엘리먼트 방식) */}
-      {currentBanner && currentBanner.imageUrl && (
+      {/* 배너 섹션 - 슬라이드 효과와 함께 */}
+      {banners.length > 0 && (
         <section className="biode-banner-full biode-banner-full--flush">
-          <div className="biode-banner-image">
-            <img
-              key={currentBanner.id}
-              src={currentBanner.imageUrl}
-              alt={currentBanner.title ?? "banner"}
-              className="biode-banner-image__img"
-              loading="eager"
-              decoding="async"
-            />
+          <div className="biode-banner-slider">
+            <div
+              className="biode-banner-slider__track"
+              style={{
+                transform: `translateX(-${currentBannerIndex * 100}%)`,
+              }}
+            >
+              {banners.map((banner, idx) => (
+                <div
+                  key={banner.id}
+                  className="biode-banner-slider__slide"
+                >
+                  <img
+                    src={banner.imageUrl}
+                    alt={banner.title ?? "banner"}
+                    className="biode-banner-image__img"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                  {banner.description && (
+                    <div className="biode-banner__content">
+                      <div
+                        className="banner-description"
+                        dangerouslySetInnerHTML={{ __html: banner.description }}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
 
             {/* 배너 내 컨트롤 */}
             {banners.length > 1 && (
@@ -723,15 +740,6 @@ export default function BIODEHomePage() {
                     />
                   ))}
                 </div>
-              </div>
-            )}
-
-            {currentBanner.description && (
-              <div className="biode-banner__content">
-                <div
-                  className="banner-description"
-                  dangerouslySetInnerHTML={{ __html: currentBanner.description }}
-                />
               </div>
             )}
           </div>

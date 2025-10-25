@@ -190,6 +190,153 @@
   }
 }
 
+// 배너 슬라이더 (부드러운 전환 효과)
+.biode-banner-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  &__track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); // 부드러운 슬라이드 전환
+  }
+
+  &__slide {
+    min-width: 100%;
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+
+    // 슬라이드 내부 이미지는 전체 너비로
+    .biode-banner-image__img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    // 배너 설명 컨텐츠
+    .biode-banner__content {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      right: 1.5rem;
+      color: white;
+      z-index: 5;
+
+      .banner-description {
+        font-size: 0.875rem; // 모바일 기본
+        opacity: 0.9;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        line-height: 1.4;
+
+        @media (min-width: 768px) {
+          font-size: 1.125rem;
+          line-height: 1.5;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+          margin: 0.1em 0;
+          font-weight: 600;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+
+        p {
+          margin: 0.05em 0;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+          &:first-child {
+            margin-top: 0;
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  // 컨트롤 버튼과 점 인디케이터
+  .biode-banner-controls {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+
+    &__prev,
+    &__next {
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      border: none;
+      width: 32px;  // 모바일: 작게
+      height: 32px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 4px; // 모바일: 좁게
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-size: 1.25rem; // 모바일 폰트
+
+      @media (min-width: 768px) {
+        width: 40px;
+        height: 40px;
+        margin: 0 8px;
+        font-size: 1.5rem;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.55);
+      }
+    }
+  }
+
+  .biode-banner-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+    pointer-events: auto;
+
+    &__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.5);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.3s ease;
+
+      &.is-active {
+        background: #fff;
+        width: 20px; // 모바일: 적당히
+
+        @media (min-width: 768px) {
+          width: 24px; // 데스크톱: 더 길게
+        }
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
 // 이미지 엘리먼트로 배너를 표시(원본 비율/너비에 맞춤)
 .biode-banner-image {
   position: relative;
