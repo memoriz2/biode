@@ -136,17 +136,15 @@
   // 슬라이드 텍스트 오버레이
   &__content {
     position: absolute;
-    bottom: 3rem;          // 모바일: 하단에서 3rem
-    left: 1.5rem;
-    right: 1.5rem;
+    bottom: 4.5rem;          // 모바일: 하단에서 3rem
+    left: 0;               // 이미지 꽉 채우기
+    right: 0;              // 이미지 꽉 채우기
     color: #401F1D;        // BIODE 브랜드 컬러
     z-index: 5;
     text-align: center;
 
     @media (min-width: 768px) {
       bottom: 4rem;        // 데스크톱: 하단에서 4rem
-      left: 2rem;
-      right: 2rem;
     }
   }
 
@@ -156,13 +154,14 @@
     line-height: 1;        // 줄 높이를 1로 고정
     display: flex;         // flexbox 사용
     align-items: flex-start; // 상단 정렬
+    justify-content: center; // 센터 정렬
   }
 
   &__title {
     font-size: 1.25rem;    // 모바일: 20px
     font-weight: 800;      // ExtraBold
     text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
-    line-height: 0.8;        // 줄 높이 1
+    line-height: 1;        // 줄 높이 1
 
     @media (min-width: 768px) {
       font-size: 2rem;     // 데스크톱: 32px
@@ -173,7 +172,7 @@
     font-size: 0.7rem;       // 모바일: 작은 글씨
     font-weight: 300;        // Light
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
-    margin-right: 0.5rem;    // 다음 문장과 간격
+    margin-right: 0.2rem;    // 다음 문장과 간격
     line-height: 1;        // 줄 높이 1
 
     @media (min-width: 768px) {
