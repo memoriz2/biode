@@ -761,6 +761,7 @@ export default function BIODEHomePage() {
       {/* 새 섹션: 한 번에 이미지 하나, 세로 스와이프/스크롤로 다음 이미지가 올라옴 */}
       <section ref={sliderSectionRef} className="biode-vertical-slider" aria-label="BIODE 제품 미리보기">
         <div className="biode-vertical-slider__viewport" aria-live="polite" style={verticalSliderHeightPx ? { height: `${verticalSliderHeightPx}px` } : undefined}>
+          {/* 슬라이드 1 */}
           <div className="biode-vertical-slider__slide is-inview" aria-label="미리보기 이미지 1">
             <img
               ref={firstSliderImageRef}
@@ -777,12 +778,30 @@ export default function BIODEHomePage() {
                 }
               }}
             />
+            <div className="biode-vertical-slider__content">
+              <p className="biode-vertical-slider__text">
+                <span className="biode-vertical-slider__description">세계 최고가 아니면 만들지 않습니다.</span>
+                <span className="biode-vertical-slider__title">원칙을 세우다</span>
+              </p>
+            </div>
           </div>
+
+          {/* 슬라이드 2 */}
           <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 2">
             <img src="/Homepage_3.png" alt="BIODE 미리보기 2" className="biode-vertical-slider__img" />
+            <div className="biode-vertical-slider__content">
+              <h3 className="biode-vertical-slider__title">자연 분해 생분해 필름</h3>
+              <p className="biode-vertical-slider__description">환경을 생각하는 스마트한 선택</p>
+            </div>
           </div>
+
+          {/* 슬라이드 3 */}
           <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 3">
             <img src="/Homepage_4.png" alt="BIODE 미리보기 3" className="biode-vertical-slider__img" />
+            <div className="biode-vertical-slider__content">
+              <h3 className="biode-vertical-slider__title">농업의 혁신을 선도합니다</h3>
+              <p className="biode-vertical-slider__description">검증된 기술력과 품질</p>
+            </div>
           </div>
         </div>
       </section>

@@ -118,6 +118,7 @@
     display: block;
     padding: 0;
     margin: 0;
+    position: relative;    // 텍스트 오버레이를 위한 포지션
 
     // 데스크톱에서는 스냅 제거
     @media (min-width: 1024px) {
@@ -130,6 +131,55 @@
     width: 100vw;          // 뷰포트 폭에 정확히 맞춤
     height: auto;          // 비율 유지, 세로 길이는 자동
     object-fit: contain;   // 이미지 전체가 보이도록
+  }
+
+  // 슬라이드 텍스트 오버레이
+  &__content {
+    position: absolute;
+    bottom: 3rem;          // 모바일: 하단에서 3rem
+    left: 1.5rem;
+    right: 1.5rem;
+    color: #401F1D;        // BIODE 브랜드 컬러
+    z-index: 5;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      bottom: 4rem;        // 데스크톱: 하단에서 4rem
+      left: 2rem;
+      right: 2rem;
+    }
+  }
+
+  &__text {
+    margin: 0;
+    padding: 0;
+    line-height: 1;        // 줄 높이를 1로 고정
+    display: flex;         // flexbox 사용
+    align-items: flex-start; // 상단 정렬
+  }
+
+  &__title {
+    font-size: 1.25rem;    // 모바일: 20px
+    font-weight: 800;      // ExtraBold
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+    line-height: 0.8;        // 줄 높이 1
+
+    @media (min-width: 768px) {
+      font-size: 2rem;     // 데스크톱: 32px
+    }
+  }
+
+  &__description {
+    font-size: 0.7rem;       // 모바일: 작은 글씨
+    font-weight: 300;        // Light
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+    margin-right: 0.5rem;    // 다음 문장과 간격
+    line-height: 1;        // 줄 높이 1
+
+    @media (min-width: 768px) {
+      font-size: 1.25rem;    // 데스크톱: 큰 글씨
+      margin-right: 0.75rem;
+    }
   }
 
   // 부드러운 등장 효과 (현재 슬라이드)
