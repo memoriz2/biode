@@ -746,6 +746,18 @@ export default function BIODEHomePage() {
         </section>
       )}
 
+      {/*비오드 유산균 이야기*/}
+      <section className="biode-story">
+        <div className="biode-story__container">
+          <div className="biode-story__header">
+            <h2 className="biode-story__title">비오드 유산균 이야기</h2>
+          </div>
+          <div className="biode-story__content-item">
+            <p><strong>BIODE</strong> Lactic Acid Bacteria Story</p>
+          </div>
+        </div>
+      </section>
+
       {/* 새 섹션: 한 번에 이미지 하나, 세로 스와이프/스크롤로 다음 이미지가 올라옴 */}
       <section ref={sliderSectionRef} className="biode-vertical-slider" aria-label="BIODE 제품 미리보기">
         <div className="biode-vertical-slider__viewport" aria-live="polite" style={verticalSliderHeightPx ? { height: `${verticalSliderHeightPx}px` } : undefined}>

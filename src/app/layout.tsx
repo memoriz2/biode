@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import "@/styles/globals.scss";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -8,6 +9,33 @@ import VisitorLogger from "@/components/VisitorLogger";
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
+});
+
+const nanumSquare = localFont({
+  src: [
+    {
+      path: "../../public/fonts/biode/nanum-square/NanumSquareL.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/biode/nanum-square/NanumSquareR.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/biode/nanum-square/NanumSquareB.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/biode/nanum-square/NanumSquareEB.ttf",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-nanum-square",
+  display: "swap", // 폰트 로딩 최적화
 });
 
 export const metadata: Metadata = {
@@ -100,7 +128,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={`${geist.variable} biode-layout`}>
+      <body className={`${geist.variable} ${nanumSquare.variable} biode-layout`}>
         <ConditionalLayout>{children}</ConditionalLayout>
 
         {/* 방문자 로그 자동 기록 */}
