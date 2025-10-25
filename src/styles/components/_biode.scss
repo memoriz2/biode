@@ -96,22 +96,33 @@
 
   &__viewport {
     height: 100vh;                 // 섹션 = 뷰포트 높이
-    overflow-y: auto;
-    scroll-snap-type: y mandatory; // 스냅 고정
+    overflow-y: scroll;            // 스크롤 허용
+    scroll-snap-type: y mandatory; // 모바일: 스냅 고정
     overscroll-behavior-y: auto;   // 스크롤 체이닝 허용
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;       // 프로그램틱 스크롤 시 부드럽게
     -ms-overflow-style: none;      // IE/Edge 스크롤바 숨김
     scrollbar-width: none;         // Firefox
     &::-webkit-scrollbar { display: none; } // WebKit
+
+    // 데스크톱: 스냅 없이 일반 스크롤 + 체이닝 허용
+    @media (min-width: 1024px) {
+      scroll-snap-type: none;        // 데스크톱에서는 스냅 제거
+      overscroll-behavior-y: auto;   // 스크롤 체이닝 완전 허용
+    }
   }
 
   &__slide {
-    scroll-snap-align: start; 
+    scroll-snap-align: start;
     min-height: auto;      // 이미지 높이에 맞춤
     display: block;
     padding: 0;
     margin: 0;
+
+    // 데스크톱에서는 스냅 제거
+    @media (min-width: 1024px) {
+      scroll-snap-align: none;
+    }
   }
 
   &__img {

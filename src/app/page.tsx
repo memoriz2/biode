@@ -120,6 +120,9 @@ interface History {
 export default function BIODEHomePage() {
   const firstSliderImageRef = useRef<HTMLImageElement | null>(null);
   const [verticalSliderHeightPx, setVerticalSliderHeightPx] = useState<number | null>(null);
+  const sliderSectionRef = useRef<HTMLElement | null>(null);
+  const lastScrollYRef = useRef<number>(0);
+  const [sliderSnapDone, setSliderSnapDone] = useState<boolean>(false);
   const [video, setVideo] = useState<Video | null>(null);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [currentBannerIndex, setCurrentBannerIndex] = useState<number>(0);
@@ -190,6 +193,62 @@ export default function BIODEHomePage() {
     return () => observer.disconnect();
   }, []);
 
+  // 세로 슬라이더: 데스크톱에서 마지막 슬라이드 후 외부 스크롤 연결
+  useEffect(() => {
+    // 데스크톱에서만 작동
+    const isDesktop = () => window.innerWidth >= 1024;
+    if (!isDesktop()) return;
+
+    const viewport = document.querySelector<HTMLElement>(".biode-vertical-slider__viewport");
+    if (!viewport) return;
+
+    let isScrollingInSlider = false;
+    let lastScrollTime = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!isDesktop()) return; // 데스크톱 체크
+
+      const scrollTop = viewport.scrollTop;
+      const scrollHeight = viewport.scrollHeight;
+      const clientHeight = viewport.clientHeight;
+      const isAtTop = scrollTop <= 10;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      const now = Date.now();
+
+      // 위로 스크롤 중이고 맨 위에 있을 때
+      if (e.deltaY < 0 && isAtTop && !isScrollingInSlider) {
+        // 슬라이더 밖으로 스크롤 허용 (위로)
+        return;
+      }
+
+      // 아래로 스크롤 중이고 맨 아래에 있을 때
+      if (e.deltaY > 0 && isAtBottom) {
+        if (now - lastScrollTime > 100) {
+          // 다음 섹션으로 이동
+          e.preventDefault();
+          const nextSection = sliderSectionRef.current?.nextElementSibling as HTMLElement;
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            isScrollingInSlider = false;
+          }
+        }
+        lastScrollTime = now;
+        return;
+      }
+
+      // 슬라이더 내부에서 스크롤 중
+      if (!isAtTop && !isAtBottom) {
+        isScrollingInSlider = true;
+      }
+    };
+
+    viewport.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      viewport.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   // 세로 슬라이더: 첫 이미지 비율에 맞춰 섹션 높이를 고정
   useEffect(() => {
     const computeHeight = () => {
@@ -209,6 +268,38 @@ export default function BIODEHomePage() {
     window.addEventListener("resize", computeHeight);
     return () => window.removeEventListener("resize", computeHeight);
   }, []);
+
+  // 외부 스크롤이 내려오다 슬라이더를 만나면 섹션 상단에 스냅(지나치지 않도록)
+  // 데스크톱과 모바일 모두 작동
+  useEffect(() => {
+    const section = sliderSectionRef.current;
+    if (!section) return;
+
+    const onWindowScroll = () => {
+      lastScrollYRef.current = window.scrollY || window.pageYOffset;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const goingDown = (window.scrollY || window.pageYOffset) >= lastScrollYRef.current;
+        lastScrollYRef.current = window.scrollY || window.pageYOffset;
+        if (!sliderSnapDone && goingDown && entry.isIntersecting) {
+          // 뷰포트에 일정 부분 들어오면 섹션 시작으로 스냅
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+          setSliderSnapDone(true);
+        }
+      },
+      { root: null, threshold: 0.15 }
+    );
+
+    observer.observe(section);
+    window.addEventListener("scroll", onWindowScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onWindowScroll);
+    };
+  }, [sliderSnapDone]);
 
   // 배너 자동 로테이션 (5초 간격)
   useEffect(() => {
@@ -648,7 +739,7 @@ export default function BIODEHomePage() {
       )}
 
       {/* 새 섹션: 한 번에 이미지 하나, 세로 스와이프/스크롤로 다음 이미지가 올라옴 */}
-      <section className="biode-vertical-slider" aria-label="BIODE 제품 미리보기">
+      <section ref={sliderSectionRef} className="biode-vertical-slider" aria-label="BIODE 제품 미리보기">
         <div className="biode-vertical-slider__viewport" aria-live="polite" style={verticalSliderHeightPx ? { height: `${verticalSliderHeightPx}px` } : undefined}>
           <div className="biode-vertical-slider__slide is-inview" aria-label="미리보기 이미지 1">
             <img
