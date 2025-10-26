@@ -5,23 +5,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url("/home_background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(249, 250, 251, 0.9);
-    z-index: 1;
-  }
 
   main {
     flex: 1;
@@ -31,17 +15,7 @@
     z-index: 2;
   }
 
-  footer {
-    margin-top: auto;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    border-top: 1px solid #e2e8f0;
-    color: #374151;
-    padding: 2rem 0;
-    text-align: center;
-    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 2;
-  }
+  // footer 스타일은 .biode-footer 클래스에서 직접 관리
 }
 
 // 전체 화면 너비 섹션: 3개 이미지(한 줄 하나, 전체 폭)
@@ -1827,6 +1801,139 @@
     &--highlight {
       color: #8F4C4A;
       font-weight: 800;  // ExtraBold
+    }
+  }
+}
+
+// 푸터 스타일
+.biode-footer {
+  background-color: #401F1D !important;
+  color: white;
+  padding: 3rem 2rem 2rem;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+  }
+
+  &__menu {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: nowrap;
+  }
+
+  &__menu-item {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__arrow {
+    display: inline-block;
+    transition: transform 0.3s;
+
+    .biode-footer__menu-item:hover & {
+      transform: translateX(4px);
+    }
+  }
+
+  &__scroll-top {
+    width: clamp(10%, 8vw, 48px);
+    height: clamp(10%, 8vw, 48px);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    cursor: pointer;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__info {
+    margin-bottom: 2rem;
+  }
+
+  &__info-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+
+  &__label {
+    font-weight: 700;
+    min-width: 60px;
+  }
+
+  &__text {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  &__social {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  &__social-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  &__logo {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: white;
+
+    sup {
+      font-size: 1.5rem;
+      vertical-align: super;
     }
   }
 }
