@@ -789,289 +789,35 @@ export default function BIODEHomePage() {
           {/* 슬라이드 2 */}
           <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 2">
             <img src="/Homepage_3.png" alt="BIODE 미리보기 2" className="biode-vertical-slider__img" />
-            <div className="biode-vertical-slider__content">
-              <h3 className="biode-vertical-slider__title">자연 분해 생분해 필름</h3>
-              <p className="biode-vertical-slider__description">환경을 생각하는 스마트한 선택</p>
+            <div className="biode-vertical-slider__content biode-vertical-slider__content--slide2">
+              <p className="biode-vertical-slider__text biode-vertical-slider__text--column">
+                <span className="biode-vertical-slider__description">건강수명까지 생각한 비오드 바이오 테크널러지.</span>
+                <span className="biode-vertical-slider__title">가장 앞선 기술</span>
+              </p>
             </div>
           </div>
 
           {/* 슬라이드 3 */}
           <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 3">
             <img src="/Homepage_4.png" alt="BIODE 미리보기 3" className="biode-vertical-slider__img" />
-            <div className="biode-vertical-slider__content">
-              <h3 className="biode-vertical-slider__title">농업의 혁신을 선도합니다</h3>
-              <p className="biode-vertical-slider__description">검증된 기술력과 품질</p>
+            <div className="biode-vertical-slider__content biode-vertical-slider__content--slide3">
+              <p className="biode-vertical-slider__text">
+                <span className="biode-vertical-slider__description">숫자가 말해주는 확실한 변화.</span>
+                <span className="biode-vertical-slider__title">증명을 해내다</span>
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-        {/* 인사말 섹션 */}
-        {greeting && (
-          <section className="biode-greeting">
-            <h2 className="biode-greeting__title">{greeting.title}</h2>
-            <div className="biode-greeting__container">
-              <div
-                className="biode-greeting__content"
-                dangerouslySetInnerHTML={{ __html: greeting.content }}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* 배너뉴스 섹션 */}
-        {bannerNews && bannerNews.length > 0 && (
-          <section className="biode-news biode-section">
-            <h2 className="biode-contact__title">최신 소식</h2>
-            <div className="biode-news__grid">
-              {bannerNews.slice(0, 4).map((news) => (
-                <article key={news.id} className="biode-news__item">
-                  {news.imageUrl && (
-                    <div className="biode-news__image-container">
-                      <Image
-                        src={news.imageUrl}
-                        alt={news.title}
-                        width={400}
-                        height={192}
-                        className="biode-news__image"
-                        priority={true}
-                        style={{
-                          height: "192px",
-                          objectFit: "cover",
-                          objectPosition: "center",
-                        }}
-                      />
-                    </div>
-                  )}
-                  <div className="biode-news__content">
-                    <h3 className="biode-news__title">{news.title}</h3>
-                    <p className="biode-news__description">
-                      {news.content}
-                    </p>
-                    <div className="biode-news__meta">
-                      <span className="biode-news__date">
-                        {news.startDate
-                          ? new Date(news.startDate).toLocaleDateString("ko-KR")
-                          : "날짜 없음"}
-                      </span>
-                      {news.linkUrl && (
-                        <a
-                          href={news.linkUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="biode-news__link"
-                        >
-                          자세히 보기 →
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 비디오 섹션 */}
-        {/* 디버깅 정보 (개발 환경에서만 표시) */}
-        {process.env.NODE_ENV === "development" && (
-          <div
-            style={{
-              backgroundColor: "#f0f0f0",
-              padding: "10px",
-              margin: "10px 0",
-              borderRadius: "5px",
-              fontSize: "12px",
-              fontFamily: "monospace",
-            }}
-          >
-            <strong>디버깅 정보:</strong>
-            <br />
-            Video 객체: {video ? "존재함" : "null"}
-            <br />
-            Video isActive: {video?.isActive ? "true" : "false"}
-            <br />
-            Video URL 길이: {video?.videoUrl?.length || 0}
-            <br />
-            Video URL 미리보기: {video?.videoUrl?.substring(0, 100) || "N/A"}...
-            <br />
-            추출된 비디오 ID:{" "}
-            {video ? extractVideoId(video.videoUrl) || "추출 실패" : "N/A"}
-            <br />
-            YouTube 직접 링크:{" "}
-            {video ? getYouTubeDirectLink(video.videoUrl) : "N/A"}
-          </div>
-        )}
-
-        {video && video.isActive && (
-          <section className="biode-video biode-section">
-            <h2 className="biode-contact__title">회사 소개 영상</h2>
-            <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
-              {/* <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
-                {video.title}
-              </h3> */}
-              {/* {video.description && (
-                <p className="text-gray-600 mb-6 text-center">
-                  {video.description}
-                </p>
-              )} */}
-              <div className="biode-video__container">
-                <div className="biode-video__iframe-wrapper">
-                  {/* YouTube iframe 렌더링 */}
-                  <div
-                    className="biode-video__iframe"
-                    dangerouslySetInnerHTML={{ __html: video.videoUrl }}
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 조직도 섹션 */}
-        {organizationChart && organizationChart.isActive && (
-          <section className="biode-organization biode-section">
-            <h2 className="biode-contact__title">조직도</h2>
-            <div className="biode-news__container">
-              <div className="bg-white rounded-lg shadow-sm border p-4 text-center">
-                <div className="biode-organization__container">
-                  {organizationChart.imageUrl ? (
-                    <Image
-                      src={organizationChart.imageUrl}
-                      alt="조직도"
-                      width={800}
-                      height={600}
-                      className="biode-organization__image"
-                      onError={(e) => {
-                        console.error(
-                          "조직도 이미지 로드 실패:",
-                          organizationChart.imageUrl
-                        );
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <div className="biode-organization__placeholder">
-                      조직도 이미지를 불러올 수 없습니다.
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 히스토리 섹션 */}
-        {histories.length > 0 && (
-          <section className="biode-history biode-section">
-            <h2 className="biode-contact__title">회사 연혁</h2>
-            <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
-              <div className="max-w-4xl mx-auto">
-                <div className="biode-history__timeline">
-                  {Object.entries(
-                    histories.reduce((acc, history) => {
-                      if (!acc[history.year]) {
-                        acc[history.year] = [];
-                      }
-                      acc[history.year].push(history);
-                      return acc;
-                    }, {} as Record<string, History[]>)
-                  )
-                    .sort(([a], [b]) => b.localeCompare(a))
-                    .map(([year, yearHistories]) => (
-                      <div
-                        key={year}
-                        className="biode-history__year-group"
-                      >
-                        <h3 className="biode-history__year-title">
-                          {year}
-                        </h3>
-                        <div className="biode-history__year-content">
-                          {yearHistories
-                            .sort((a, b) => a.sortOrder - b.sortOrder)
-                            .map((history) => (
-                              <div
-                                key={history.id}
-                                className="biode-history__item"
-                              >
-                                <p className="biode-history__description">
-                                  {history.description}
-                                </p>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 오시는길 섹션 */}
-        <section className="biode-contact">
-          <h2 className="biode-contact__title">오시는 길</h2>
-          <div className="biode-contact__container">
-            <div className="biode-contact__content">
-              {/* 주소 정보 카드 */}
-              <div className="biode-contact__info">
-                <div className="biode-contact__card">
-                  <h3 className="biode-contact__company">BIODE</h3>
-                  <div className="biode-contact__details">
-                    <div className="biode-contact__item">
-                      <strong>도로명</strong>
-                      <p>서울특별시 강남구 테헤란로 123</p>
-                    </div>
-                    <div className="biode-contact__item">
-                      <strong>지번</strong>
-                      <p>서울특별시 강남구 역삼동 123-45</p>
-                    </div>
-                    <div className="biode-contact__item">
-                      <strong>우편번호</strong>
-                      <p>06123</p>
-                    </div>
-                    <div className="biode-contact__item">
-                      <strong>전화</strong>
-                      <p>02-1234-5678</p>
-                    </div>
-                    <div className="biode-contact__item">
-                      <strong>이메일</strong>
-                      <p>info@biode.com</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 지도 카드 */}
-              <div className="biode-contact__map">
-                <div className="biode-contact__card">
-                  <h3 className="biode-contact__location">위치</h3>
-                  <div className="biode-map__container">
-                    <div id="map" className="biode-map__element">
-                      <div className="biode-map__placeholder">
-                        <div className="placeholder-content">
-                          <svg fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                              fillRule="evenodd"
-                              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <p className="placeholder-title">지도 로드 중...</p>
-                          <p className="placeholder-subtitle">
-                            잠시만 기다려주세요
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        {/* 비오드가 처음이시라구요 */}
+        <section className="biode-first-time">
+          <div className="biode-first-time__container">
+            <div className="biode-first-time__header">
+              <h1 className="biode-first-time__title">"비오드가 처음이시라구요</h1>
             </div>
           </div>
         </section>
-
     </div>
   );
 }
