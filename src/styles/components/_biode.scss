@@ -1769,3 +1769,64 @@
     }
   }
 }
+
+// 비오드가 처음이시라구요 섹션
+.biode-first-time {
+  background-color: white;
+  min-height: 50vh;
+  padding: 0;
+  position: relative;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #401F1D;
+  }
+
+  &__image-wrapper {
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  &__subtitle {
+    position: absolute;
+    top: -1%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+
+    p {
+      font-size: clamp(1.2rem, 3vw, 2.5rem);
+      font-weight: 400;
+      color: #401F1D;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    &--highlight {
+      color: #8F4C4A;
+      font-weight: 800;  // ExtraBold
+    }
+  }
+}

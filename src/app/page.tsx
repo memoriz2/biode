@@ -816,6 +816,14 @@ export default function BIODEHomePage() {
             <div className="biode-first-time__header">
               <h1 className="biode-first-time__title">"비오드가 처음이시라구요</h1>
             </div>
+            <div className="biode-first-time__image-wrapper">
+              <img src="/Homepage_6.png" alt="비오드 소개" className="biode-first-time__image" />
+              <div className="biode-first-time__subtitle">
+                <p>그렇다면 먼저,</p>
+                <p><span className="biode-first-time__subtitle--highlight">'경험한 분들의 이야기'</span>와</p>
+                <p>만나보세요!</p>
+              </div>
+            </div>
           </div>
         </section>
     </div>
