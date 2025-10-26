@@ -55,10 +55,10 @@ export default function ConditionalLayout({
                 <span className="biode-footer__text">UNIDGROUP@UNIDGROUP.CO.KR</span>
               </div>
               <div className="biode-footer__info-row">
-                <span className="biode-footer__text">사업자등록번호</span>
+                <span className="biode-footer__label">사업자등록번호</span>
               </div>
               <div className="biode-footer__info-row">
-                <span className="biode-footer__text">대표자</span>
+                <span className="biode-footer__label">대표자</span>
               </div>
             </div>
 

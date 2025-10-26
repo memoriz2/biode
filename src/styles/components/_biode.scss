@@ -1809,7 +1809,7 @@
 .biode-footer {
   background-color: #401F1D !important;
   color: white;
-  padding: 3rem 2rem 2rem;
+  padding: 2rem 1rem 2rem;
 
   &__container {
     max-width: 1200px;
@@ -1820,7 +1820,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3rem;
     padding-bottom: 2rem;
   }
 
@@ -1867,6 +1866,7 @@
     transition: all 0.3s;
     flex-shrink: 0;
     aspect-ratio: 1 / 1;
+    margin-left: 1rem;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.3);
@@ -1875,24 +1875,20 @@
   }
 
   &__info {
-    margin-bottom: 2rem;
+    
   }
 
   &__info-row {
     display: flex;
     gap: 1rem;
     margin-bottom: 0.75rem;
-    font-size: 0.95rem;
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
     line-height: 1.6;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: 0.25rem;
-    }
+    flex-wrap: nowrap;
   }
 
   &__label {
-    font-weight: 700;
+    font-weight: 800;
     min-width: 60px;
   }
 
