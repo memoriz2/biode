@@ -54,6 +54,15 @@ export default function WowPrinciplePage() {
           </div>
         </div>
       </section>
+
+      {/* 네 번째 섹션 */}
+      <section className="wow-principle__section" style={{ width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', backgroundColor: 'white' }}>
+        <img
+          src="/Homepage_13.png"
+          alt="비오드의 원칙 3"
+          style={{ width: '100%', height: 'auto', display: 'block'}}
+        />
+      </section>
     </div>
   );
 }
