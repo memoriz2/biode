@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
@@ -57,13 +60,12 @@ export default function Header() {
     <header
       className={`biode-header ${
         isScrolled ? "biode-header--scrolled" : ""
-      }`}
+      } ${isHomePage ? "biode-header--home" : ""}`}
     >
       <div className="biode-header__container">
         <div className="biode-header__content">
           {/* 로고 */}
           <Link href="/" className="biode-header__logo">
-            <div className="biode-header__logo-icon">G</div>
             <span className="biode-header__logo-text">BIODE</span>
           </Link>
 
@@ -87,7 +89,15 @@ export default function Header() {
             aria-label="메뉴 열기"
             aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? "✕" : "☰"}
+            {isMobileMenuOpen ? (
+              <span className="biode-header__close-icon">✕</span>
+            ) : (
+              <div className="biode-header__hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            )}
           </button>
         </div>
 
