@@ -6,7 +6,7 @@ export default function WowPrinciplePage() {
         <img
           src="/Homepage_2.png"
           alt="비오드의 원칙"
-          style={{ width: '100%', height: 'auto', display: 'block', transform: 'scaleX(-1)' }}
+          style={{ width: '100%', height: 'auto', display: 'block', transform: 'scale(1.2) scaleX(-1)' }}
         />
 
         {/* 이미지 위 텍스트 오버레이 */}
