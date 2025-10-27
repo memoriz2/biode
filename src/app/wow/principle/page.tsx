@@ -25,6 +25,7 @@ export default function WowPrinciplePage() {
         <img
           src="/Homepage_12.png"
           alt="비오드의 원칙 2"
+          className="wow-principle__image-philosophy"
           style={{ width: '100%', height: 'auto', display: 'block'}}
         />
 

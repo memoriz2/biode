@@ -1942,6 +1942,10 @@
     }
   }
 
+  &__image-philosophy {
+    transform: translateX(-19%);
+  }
+
   &__overlay {
     position: absolute;
     bottom: 2%;
@@ -1980,11 +1984,11 @@
 
   &__overlay-philosophy {
     position: absolute;
-    bottom: 10%;
-    left: 50%;
+    bottom: 57%;
+    left: 77%;
     transform: translateX(-50%);
     z-index: 10;
-    text-align: center;
+    text-align: left;
   }
 
   &__philosophy-text {
