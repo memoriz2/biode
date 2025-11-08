@@ -13,11 +13,13 @@ export default function WowTechnologyPage() {
           </div>
         </div> */}
         <img src="/tecknology/tech_01.png" className="pc" />
+        <img src="/tecknology/m_tech_01.png" className="mobile" />
       </section>
 
       {/* 두 번째 섹션 */}
       <section className="img-section">
         <img src="/tecknology/tech_02.png" className="pc" />
+        <img src="/tecknology/m_tech_02.png" className="mobile" />
 
         {/* <div className="tabs">
           <div>비오드의 원칙과 철학</div>
@@ -54,21 +56,27 @@ export default function WowTechnologyPage() {
       </section>
       <section className="img-section">
         <img src="/tecknology/tech_03.png" className="pc" />
+        <img src="/tecknology/m_tech_03.png" className="mobile" />
       </section>
       <section className="img-section">
         <img src="/tecknology/tech_04.png" className="pc" />
+        <img src="/tecknology/m_tech_04.png" className="mobile" />
       </section>
       <section className="img-section">
         <img src="/tecknology/tech_05.png" className="pc" />
+        <img src="/tecknology/m_tech_05.png" className="mobile" />
       </section>
       <section className="img-section">
         <img src="/tecknology/tech_06.png" className="pc" />
+        <img src="/tecknology/m_tech_06.png" className="mobile" />
       </section>
       <section className="img-section">
         <img src="/tecknology/tech_07.png" className="pc" />
+        <img src="/tecknology/m_tech_07.png" className="mobile" />
       </section>
       <section className="img-section">
         <img src="/tecknology/tech_08.png" className="pc" />
+        <img src="/tecknology/m_tech_08.png" className="mobile" />
       </section>
     </div>
   );

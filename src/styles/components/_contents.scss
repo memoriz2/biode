@@ -58,9 +58,22 @@
 
 .img-section {
   pointer-events: none;
+  .pc {
+    display: block;
+    @include tablet {
+      display: none;
+    }
+  }
+  .mobile {
+    display: none;
+    @include tablet {
+      display: block;
+    }
+  }
 }
 
 .contact {
+  width: 100%;
   border-bottom: 0.1rem dashed #bba391;
   margin-bottom: 10rem;
   position: relative;
@@ -68,6 +81,10 @@
   .rows {
     padding: 10rem 0;
     border-right: 0.1rem dashed #bba391;
+    @include tablet {
+      padding: 10rem 3rem;
+      border-right: 0;
+    }
     &::before {
       content: "";
       position: absolute;
@@ -86,8 +103,15 @@
   .contact-wrap {
     @include flex($align: flex-start);
     gap: 2rem;
+    @include tablet {
+      flex-direction: column;
+      gap: 5rem;
+    }
     & > div {
       width: 50%;
+      @include tablet {
+        width: 100%;
+      }
     }
     h4 {
       font-size: 2.6rem;
@@ -110,7 +134,7 @@
         margin-top: 2rem;
         font-size: 1.7rem;
         .item {
-          @include flex;
+          @include flex($align: flex-start);
           & + .item {
             margin-top: 1rem;
           }

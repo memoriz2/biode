@@ -719,13 +719,13 @@ export default function BIODEHomePage() {
       )}
 
       {/*비오드 유산균 이야기*/}
-      <section className="biode-story">
-        <div className="biode-story__container">
+      <section className="biode-story" style={{backgroundImage: 'url(/IMG_0146.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',height: '13vh'}}>
+        <div className="biode-story__container" style={{paddingTop: '2.5rem', paddingLeft: '2rem'}}>
           <div className="biode-story__header">
-            <h2 className="biode-story__title">비오드 유산균 이야기</h2>
+            <h2 className="biode-story__title" style={{color: '#8F4C4A', fontWeight: 800, fontSize: 'x-large'}}>비오드 유산균 이야기</h2>
           </div>
           <div className="biode-story__content-item">
-            <p><strong>BIODE</strong> Lactic Acid Bacteria Story</p>
+            <p style={{fontSize: 'large', float: 'right', paddingRight: '2rem', paddingTop: '0.5rem'}}><strong>BIODE</strong> Lactic Acid Bacteria Story</p>
           </div>
         </div>
       </section>
@@ -783,12 +783,12 @@ export default function BIODEHomePage() {
       </section>
 
         {/* 비오드가 처음이시라구요 */}
-        <section className="biode-first-time">
-          <div className="biode-first-time__container">
-            <div className="biode-first-time__header">
-              <h1 className="biode-first-time__title">"비오드가 처음이시라구요</h1>
+        <section className="biode-first-time" style={{marginBottom: 0, paddingBottom: 0, minHeight: '36vh'}}>
+          <div className="biode-first-time__container" style={{minHeight: '29vh'}}>
+            <div className="biode-first-time__header" style={{textAlign: 'center', marginBottom: '1rem', marginTop: '1rem', fontFamily: 'nanumSquare'}}>
+              <h1 className="biode-first-time__title" style={{fontWeight: 800}}>"비오드가 처음이시라구요</h1>
             </div>
-            <div className="biode-first-time__image-wrapper">
+            <div className="biode-first-time__image-wrapper" style={{marginTop: 0}}>
               <img src="/Homepage_6.png" alt="비오드 소개" className="biode-first-time__image" />
               <div className="biode-first-time__subtitle">
                 <p>그렇다면 먼저,</p>

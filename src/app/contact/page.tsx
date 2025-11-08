@@ -3,6 +3,7 @@ export default function WowExperiencePage() {
     <div>
       <section className="img-section">
         <img src="/contact/contact_01.png" className="pc" />
+        <img src="/contact/m_contact_01.png" className="mobile" />
       </section>
       <section className="contact">
         <div className="rows">
