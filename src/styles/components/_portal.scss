@@ -1,5 +1,22 @@
 // 포털 페이지 공통 스타일
 
+// 포털 페이지 다크모드 비활성화 (항상 라이트 모드)
+.admin-portal {
+  color-scheme: light !important;
+
+  * {
+    color-scheme: light !important;
+  }
+}
+
+// 다크모드 미디어 쿼리 무시
+@media (prefers-color-scheme: dark) {
+  .admin-portal {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+  }
+}
+
 // 포털 경로의 모든 h1 제목을 자동으로 노란색으로 설정
 [data-page-type="portal"] h1,
 .portal h1 {

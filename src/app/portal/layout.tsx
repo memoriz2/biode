@@ -19,7 +19,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`admin-portal ${inter.className}`}>
+    <div className={`admin-portal ${inter.className}`} data-theme="light">
       {/* 사이드바 토글 체크박스 (접근성용, CSS 토글) */}
       <input
         type="checkbox"
