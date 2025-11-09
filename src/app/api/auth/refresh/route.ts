@@ -1,61 +1,53 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getJWTSecret } from "@/lib/env";
-import jwt from "jsonwebtoken";
-
-interface JWTPayload {
-  userId: string;
-  username: string;
-  userType: string;
-  name: string;
-}
 
 export async function POST(request: NextRequest) {
   try {
-    const authToken = request.cookies.get("admin_token")?.value;
+    const adminToken = request.cookies.get("admin_token")?.value;
+    const adminSession = request.cookies.get("admin_session")?.value;
 
-    if (!authToken) {
-      console.log("[세션 연장] 토큰 없음");
+    if (!adminToken || adminToken !== "logged_in") {
+      console.log("[세션 연장] 로그인 상태 아님");
       return NextResponse.json(
-        { success: false, message: "인증 토큰이 없습니다." },
+        { success: false, message: "로그인이 필요합니다." },
         { status: 401 }
       );
     }
 
-    const jwtSecret = getJWTSecret();
-    const decoded = jwt.verify(authToken, jwtSecret) as JWTPayload;
+    if (!adminSession) {
+      console.log("[세션 연장] 세션 데이터 없음");
+      return NextResponse.json(
+        { success: false, message: "세션 데이터가 없습니다." },
+        { status: 401 }
+      );
+    }
 
-    // 새로운 토큰 생성 (30분 연장)
-    const newToken = jwt.sign(
-      {
-        userId: decoded.userId,
-        username: decoded.username,
-        userType: decoded.userType,
-        name: decoded.name,
-      },
-      jwtSecret,
-      { expiresIn: "30m" }
-    );
+    console.log("[세션 연장] 세션 연장 성공");
 
     const response = NextResponse.json({
       success: true,
       message: "세션이 연장되었습니다.",
     });
 
-    // 새로운 쿠키 설정
-    response.cookies.set("admin_token", newToken, {
+    // 쿠키 만료 시간 연장 (30분)
+    response.cookies.set("admin_token", "logged_in", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 30 * 60, // 30분
+      maxAge: 30 * 60,
+      path: "/",
+    });
+
+    response.cookies.set("admin_session", adminSession, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 60,
       path: "/",
     });
 
     return response;
   } catch (error) {
     console.error("[세션 연장 오류]", error);
-    if (error instanceof Error) {
-      console.error("[세션 연장 오류 상세]", error.message);
-    }
     return NextResponse.json(
       { success: false, message: "세션 연장에 실패했습니다." },
       { status: 401 }

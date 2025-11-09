@@ -1,32 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getJWTSecret } from "@/lib/env";
-import jwt from "jsonwebtoken";
 
-interface JWTPayload {
+interface SessionData {
   userId: string;
   username: string;
   userType: string;
   name: string;
+  loginTime: string;
 }
 
 export async function GET(request: NextRequest) {
   try {
-    const authToken = request.cookies.get("admin_token")?.value;
+    const adminToken = request.cookies.get("admin_token")?.value;
+    const adminSession = request.cookies.get("admin_session")?.value;
 
-    if (!authToken) {
+    if (!adminToken || adminToken !== "logged_in") {
       return NextResponse.json({ userType: "guest" }, { status: 200 });
     }
 
-    const jwtSecret = getJWTSecret();
-    const decoded = jwt.verify(authToken, jwtSecret) as JWTPayload;
+    if (!adminSession) {
+      return NextResponse.json({ userType: "guest" }, { status: 200 });
+    }
+
+    // 세션 데이터 파싱
+    const sessionData: SessionData = JSON.parse(adminSession);
 
     return NextResponse.json({
-      userType: decoded.userType,
-      username: decoded.username,
-      name: decoded.name,
+      userType: sessionData.userType,
+      username: sessionData.username,
+      name: sessionData.name,
     });
   } catch (error) {
-    console.error("토큰 검증 오류:", error);
+    console.error("세션 검증 오류:", error);
     return NextResponse.json({ userType: "guest" }, { status: 200 });
   }
 }

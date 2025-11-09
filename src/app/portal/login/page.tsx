@@ -74,16 +74,22 @@ export default function PortalLoginPage() {
 
       const data: LoginResponse = await response.json();
 
-      if (data.success && data.token) {
+      if (data.success) {
+        console.log("[로그인 페이지] 로그인 성공, 리다이렉트 시작:", redirectUrl);
         // 서버에서 httpOnly 쿠키를 설정했으므로 클라이언트에서는 userType만 저장
         localStorage.setItem("userType", data.userType || "admin");
 
         // 현재 사용자 타입 업데이트
         setCurrentUserType(data.userType || "admin");
 
+        // 로그인 성공 알림
+        alert(data.message || "로그인에 성공했습니다.");
+
         // 로그인 성공 후 원래 페이지 또는 대시보드로 이동
+        console.log("[로그인 페이지] 페이지 이동:", redirectUrl);
         window.location.href = redirectUrl;
       } else {
+        console.log("[로그인 페이지] 로그인 실패:", data.message);
         alert(data.message || "로그인에 실패했습니다.");
       }
     } catch (error) {

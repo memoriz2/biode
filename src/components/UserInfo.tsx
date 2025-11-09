@@ -39,11 +39,12 @@ export default function UserInfo() {
     }
   };
 
-  // 세션 관리 훅 사용 (관리자일 때만)
+  // 세션 관리 훅 사용 (관리자로 로그인했을 때만)
   const { showWarning, countdown, closeWarning } = useSessionManager({
     onLogout: handleLogout,
     sessionTimeout: 30 * 60 * 1000, // 30분
     warningTimeout: 10 * 1000, // 10초
+    enabled: userType !== "guest", // 로그인 상태일 때만 활성화
   });
 
   useEffect(() => {
