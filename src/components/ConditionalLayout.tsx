@@ -37,7 +37,7 @@ export default function ConditionalLayout({
 
           {/* 모바일 버전 - 이미지 */}
           <div className="biode-footer__mobile">
-            <img src="/모바일푸터.png" alt="BIODE Mobile Footer" className="biode-footer__mobile-image" />
+            <img src="/mobile_footer.png" alt="BIODE Mobile Footer" className="biode-footer__mobile-image" />
             <button
               className="biode-footer__mobile-circle"
               onClick={handleScrollToTop}

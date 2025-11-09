@@ -161,7 +161,8 @@
     font-weight: 600;
     margin-bottom: 1rem;
   }
-  input[type="text"] {
+  input[type="text"],
+  input[type="email"] {
     border: 0;
     border-bottom: 1px solid #737373;
     width: 100%;
@@ -175,5 +176,53 @@
   }
   ::placeholder {
     color: #ddd;
+  }
+}
+
+// 제출 버튼
+.submit-wrap {
+  margin-top: 4rem;
+  text-align: center;
+
+  .submit-btn {
+    background: linear-gradient(to bottom, #3a0f0e, #86413b, #b38474, #c9ad9d);
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 600;
+    padding: 1.5rem 6rem;
+    border: 0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// 제출 메시지
+.submit-message {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+  text-align: center;
+
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }
 }

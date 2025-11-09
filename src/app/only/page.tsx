@@ -31,7 +31,7 @@ export default function OnlyPage() {
       {!isMobile && (
         <section style={{ width: '100%', marginBottom: 0, paddingBottom: 0 }}>
           <img
-            src="/섹션2.png"
+            src="/section2.png"
             alt="섹션 2"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />

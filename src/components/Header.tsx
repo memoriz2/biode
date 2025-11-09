@@ -91,7 +91,7 @@ export default function Header() {
           <nav className="biode-header__nav">
             <div className="biode-header__nav-menu-wrapper">
               <img
-                src="/메뉴.png"
+                src="/menu.png"
                 alt="메뉴"
                 className="biode-header__nav-menu-image"
               />

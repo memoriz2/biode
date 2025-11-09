@@ -1,25 +1,95 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "고객센터 - 비오드 문의 및 상담",
-  description:
-    "비오드에 대해 궁금하신 점이 있으신가요? 온라인/오프라인 문의를 통해 상담받으실 수 있습니다. 경기도 광명시 소하로 190 G타워 1217 | 상담 전화: 010-8104-7181",
-  keywords: [
-    "비오드 문의",
-    "고객센터",
-    "비오드 상담",
-    "반려동물 유산균 상담",
-    "비오드 연락처",
-  ],
-  openGraph: {
-    title: "고객센터 - 비오드 문의 및 상담",
-    description:
-      "비오드에 대해 궁금하신 점이 있으신가요? 온라인/오프라인 문의를 통해 상담받으실 수 있습니다.",
-    url: "https://www.biode.com/contact",
-  },
-};
+import { useState, FormEvent } from "react";
 
 export default function WowExperiencePage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    content: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const validateEmail = (email: string): boolean => {
+    if (!email) return true; // 이메일은 선택사항
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    if (!phone) return true; // 전화번호는 선택사항
+    const phoneRegex = /^[0-9-]+$/;
+    return phoneRegex.test(phone);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // 필수 입력 검증
+    if (!formData.name.trim()) {
+      alert("이름을 입력해주세요.");
+      return;
+    }
+
+    if (!formData.content.trim()) {
+      alert("문의내용을 입력해주세요.");
+      return;
+    }
+
+    // 이메일 형식 검증
+    if (formData.email && !validateEmail(formData.email)) {
+      alert("올바른 이메일 형식을 입력해주세요.");
+      return;
+    }
+
+    // 전화번호 형식 검증
+    if (formData.phone && !validatePhone(formData.phone)) {
+      alert("전화번호는 숫자와 하이픈(-)만 입력 가능합니다.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: `${formData.name}님의 문의`,
+          content: `전화번호: ${formData.phone}\n이메일: ${formData.email}\n\n${formData.content}`,
+          author: formData.name,
+          email: formData.email,
+          isSecret: false,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage("문의가 성공적으로 접수되었습니다. 빠른 시일 내에 답변드리겠습니다.");
+        setFormData({ name: "", phone: "", email: "", content: "" });
+      } else {
+        setSubmitMessage(result.error || "문의 접수 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error("Error submitting inquiry:", error);
+      setSubmitMessage("문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
   return (
     <div>
       <section className="img-section">
@@ -62,13 +132,17 @@ export default function WowExperiencePage() {
             <div className="online">
               <h4>온라인 문의</h4>
               <div className="form-wrap">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="input-wrap">
                     <span>이름</span>
                     <input
                       type="text"
+                      name="name"
                       title="이름"
                       placeholder="이름을 입력하세요."
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
                     />
                   </div>
 
@@ -76,25 +150,49 @@ export default function WowExperiencePage() {
                     <span>전화번호</span>
                     <input
                       type="text"
+                      name="phone"
                       title="전화번호"
-                      placeholder="전화번호을 입력하세요."
+                      placeholder="전화번호를 입력하세요."
+                      value={formData.phone}
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="input-wrap">
                     <span>이메일</span>
                     <input
-                      type="text"
+                      type="email"
+                      name="email"
                       title="이메일"
                       placeholder="이메일을 입력하세요."
+                      value={formData.email}
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="input-wrap">
                     <span>문의내용</span>
                     <textarea
+                      name="content"
                       title="문의내용"
                       placeholder="문의내용을 입력하세요."
+                      value={formData.content}
+                      onChange={handleInputChange}
+                      required
                     />
                   </div>
+                  <div className="submit-wrap">
+                    <button
+                      type="submit"
+                      className="submit-btn"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "제출 중..." : "문의하기"}
+                    </button>
+                  </div>
+                  {submitMessage && (
+                    <div className={`submit-message ${submitMessage.includes("성공") ? "success" : "error"}`}>
+                      {submitMessage}
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

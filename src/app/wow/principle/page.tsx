@@ -30,7 +30,7 @@ export default function WowPrinciplePage() {
       {!isMobile && (
         <section style={{ width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw' }}>
           <img
-            src="/원칙2.png"
+            src="/principle2.png"
             alt="원칙 2"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
