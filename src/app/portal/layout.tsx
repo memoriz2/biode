@@ -60,6 +60,9 @@ export default function AdminLayout({
           <nav>
             <ul>
               <li>
+                <Link href="/portal">📊 대시보드</Link>
+              </li>
+              <li>
                 <Link href="/portal/banners">🖼️ 배너 관리</Link>
               </li>
               <li>

@@ -123,13 +123,12 @@ export default function AdminDashboard() {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
       localStorage.removeItem("userType");
-      setUserType("guest");
-      // 로그아웃 후 페이지 새로고침
-      window.location.reload();
+      // 로그아웃 후 로그인 페이지로 리다이렉트
+      window.location.href = "/portal/login";
     } catch (err) {
       console.error("로그아웃 오류:", err);
       localStorage.removeItem("userType");
-      setUserType("guest");
+      window.location.href = "/portal/login";
     }
   };
 
@@ -336,80 +335,11 @@ export default function AdminDashboard() {
           {userType === "admin" ? (
             <>
               <Link
-                href="/portal/banner"
+                href="/portal/banners"
                 className="action-button action-primary"
               >
                 <span>🎨</span>배너 관리
               </Link>
-              <Link
-                href="/portal/organization"
-                className="action-button action-secondary"
-              >
-                <span>👥</span>
-                조직도 관리
-              </Link>
-              <Link
-                href="/portal/history"
-                className="action-button action-success"
-              >
-                <span>📅</span>
-                히스토리 추가
-              </Link>
-              <Link
-                href="/portal/banner-news"
-                className="action-button action-warning"
-              >
-                <span>📰</span>
-                배너
-              </Link>
-              <Link
-                href="/portal/notices"
-                className="action-button action-info"
-              >
-                <span>📢</span>
-                공지사항 관리
-              </Link>
-            </>
-          ) : (
-            <>
-              <button
-                className="action-button action-primary action-disabled"
-                onClick={handleButtonClick}
-              >
-                <span>🎨</span>배너 관리
-              </button>
-              <button
-                className="action-button action-secondary action-disabled"
-                onClick={handleButtonClick}
-              >
-                <span>👥</span>
-                조직도 관리
-              </button>
-              <button
-                className="action-button action-success action-disabled"
-                onClick={handleButtonClick}
-              >
-                <span>📅</span>
-                히스토리 추가
-              </button>
-              <button
-                className="action-button action-warning action-disabled"
-                onClick={handleButtonClick}
-              >
-                <span>📰</span>
-                배너
-              </button>
-              <button
-                className="action-button action-info action-disabled"
-                onClick={handleButtonClick}
-              >
-                <span>📢</span>
-                공지사항 관리
-              </button>
-            </>
-          )}
-          {userType === "admin" ? (
-            <>
               <Link
                 href="/portal/inquiry"
                 className="action-button action-purple"
@@ -427,6 +357,12 @@ export default function AdminDashboard() {
             </>
           ) : (
             <>
+              <button
+                className="action-button action-primary action-disabled"
+                onClick={handleButtonClick}
+              >
+                <span>🎨</span>배너 관리
+              </button>
               <button
                 className="action-button action-purple action-disabled"
                 onClick={handleButtonClick}
