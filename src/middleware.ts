@@ -6,15 +6,27 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   try {
+    const { pathname } = request.nextUrl;
+
+    // 관리자 페이지 인증 체크 (임시로 비활성화)
+    // if (pathname.startsWith("/portal") && pathname !== "/portal/login") {
+    //   const token = request.cookies.get("admin_token");
+
+    //   if (!token) {
+    //     const loginUrl = new URL("/portal/login", request.url);
+    //     loginUrl.searchParams.set("redirect", pathname);
+    //     return NextResponse.redirect(loginUrl);
+    //   }
+    // }
+
     // Edge Runtime 호환성을 위해 process.env 사용 제거
     // HTTPS 강제 리다이렉트는 제거 (Edge Runtime에서 지원하지 않음)
 
-    // 정적 파일이나 API 요청, 관리자 경로는 제외
+    // 정적 파일이나 API 요청은 제외
     if (
       request.nextUrl.pathname.startsWith("/_next") ||
       request.nextUrl.pathname.startsWith("/api") ||
       request.nextUrl.pathname.startsWith("/favicon.ico") ||
-      request.nextUrl.pathname.startsWith("/portal") || // 관리자 경로 제외
       request.nextUrl.pathname.includes(".") ||
       request.nextUrl.pathname.includes("robots.txt") ||
       request.nextUrl.pathname.includes("sitemap.xml")

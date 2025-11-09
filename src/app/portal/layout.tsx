@@ -60,28 +60,7 @@ export default function AdminLayout({
           <nav>
             <ul>
               <li>
-                <Link href="/portal">📊 대시보드</Link>
-              </li>
-              <li>
-                <Link href="/portal/notices">📢 공지사항 관리</Link>
-              </li>
-              <li>
-                <Link href="/portal/videos">🎥 비디오 관리</Link>
-              </li>
-              <li>
                 <Link href="/portal/banners">🖼️ 배너 관리</Link>
-              </li>
-              <li>
-                <Link href="/portal/greetings">💬 인사말 관리</Link>
-              </li>
-              <li>
-                <Link href="/portal/organization">🏢 조직도 관리</Link>
-              </li>
-              <li>
-                <Link href="/portal/history">📅 히스토리 관리</Link>
-              </li>
-              <li>
-                <Link href="/portal/banner-news">📰 배너뉴스 관리</Link>
               </li>
               <li>
                 <Link href="/portal/inquiry">💬 문의하기 관리</Link>

@@ -11,9 +11,10 @@ interface JWTPayload {
 
 export async function POST(request: NextRequest) {
   try {
-    const authToken = request.cookies.get("authToken")?.value;
+    const authToken = request.cookies.get("admin_token")?.value;
 
     if (!authToken) {
+      console.log("[세션 연장] 토큰 없음");
       return NextResponse.json(
         { success: false, message: "인증 토큰이 없습니다." },
         { status: 401 }
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
     });
 
     // 새로운 쿠키 설정
-    response.cookies.set("authToken", newToken, {
+    response.cookies.set("admin_token", newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -51,7 +52,10 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("세션 연장 오류:", error);
+    console.error("[세션 연장 오류]", error);
+    if (error instanceof Error) {
+      console.error("[세션 연장 오류 상세]", error.message);
+    }
     return NextResponse.json(
       { success: false, message: "세션 연장에 실패했습니다." },
       { status: 401 }

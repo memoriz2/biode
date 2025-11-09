@@ -126,6 +126,7 @@ export default function BIODEHomePage() {
   const [video, setVideo] = useState<Video | null>(null);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [currentBannerIndex, setCurrentBannerIndex] = useState<number>(0);
+  const [currentVerticalSlideIndex, setCurrentVerticalSlideIndex] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [greeting, setGreeting] = useState<Greeting | null>(null);
@@ -171,26 +172,23 @@ export default function BIODEHomePage() {
     };
   }, []);
 
-  // 세로 슬라이더: 뷰포트 진입 시 부드러운 등장 클래스 토글
+  // 세로 슬라이더: 자동 슬라이드 (6초마다) - 패턴: 0->1->2->1->0...
   useEffect(() => {
-    const slides = Array.from(
-      document.querySelectorAll<HTMLElement>(".biode-vertical-slider__slide")
-    );
-    if (slides.length === 0) return;
+    const pattern = [0, 1, 2, 1]; // 반복 패턴
+    let patternIndex = 0;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-inview");
-          }
-        });
-      },
-      { root: document.querySelector(".biode-vertical-slider__viewport"), threshold: 0.6 }
-    );
+    const autoSlideInterval = setInterval(() => {
+      patternIndex = (patternIndex + 1) % pattern.length;
+      const next = pattern[patternIndex];
+      console.log('슬라이드 인덱스 변경:', currentVerticalSlideIndex, '->', next);
+      setCurrentVerticalSlideIndex(next);
+    }, 6000);
 
-    slides.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    console.log('자동 슬라이드 시작');
+    return () => {
+      clearInterval(autoSlideInterval);
+      console.log('자동 슬라이드 종료');
+    };
   }, []);
 
   // 세로 슬라이더: 데스크톱에서 마지막 슬라이드 후 외부 스크롤 연결
@@ -727,54 +725,57 @@ export default function BIODEHomePage() {
         />
       </section>
 
-      {/* 새 섹션: 한 번에 이미지 하나, 세로 스와이프/스크롤로 다음 이미지가 올라옴 */}
+      {/* 새 섹션: 한 번에 이미지 하나, 세로 슬라이드로 자동 전환 */}
       <section ref={sliderSectionRef} className="biode-vertical-slider" aria-label="BIODE 제품 미리보기">
-        <div className="biode-vertical-slider__viewport" aria-live="polite" style={verticalSliderHeightPx ? { height: `${verticalSliderHeightPx}px` } : undefined}>
-          {/* 슬라이드 1 */}
-          <div className="biode-vertical-slider__slide is-inview" aria-label="미리보기 이미지 1">
-            <img
-              ref={firstSliderImageRef}
-              src="/Homepage_2.png"
-              alt="BIODE 미리보기 1"
-              className="biode-vertical-slider__img"
-              onLoad={() => {
-                const img = firstSliderImageRef.current;
-                if (!img) return;
-                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-                  const vw = window.innerWidth;
-                  const h = Math.round((vw * img.naturalHeight) / img.naturalWidth);
-                  setVerticalSliderHeightPx(h);
-                }
-              }}
-            />
-            <div className="biode-vertical-slider__content">
-              <p className="biode-vertical-slider__text">
-                <span className="biode-vertical-slider__description">세계 최고가 아니면 만들지 않습니다.</span>
-                <span className="biode-vertical-slider__title">원칙을 세우다</span>
-              </p>
+        <div className="biode-vertical-slider__wrapper" style={verticalSliderHeightPx ? { height: `${verticalSliderHeightPx}px` } : undefined}>
+          <div
+            className="biode-vertical-slider__track"
+            style={{
+              transform: `translateY(-${currentVerticalSlideIndex * 100}%)`,
+              transition: 'transform 1.5s ease-in-out'
+            }}
+          >
+            {/* 슬라이드 1 */}
+            <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 1">
+              <img
+                ref={firstSliderImageRef}
+                src="/slide1.png"
+                alt="BIODE 미리보기 1"
+                className="biode-vertical-slider__img"
+                onLoad={() => {
+                  const img = firstSliderImageRef.current;
+                  if (!img) return;
+                  if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                    const vw = window.innerWidth;
+                    const h = Math.round((vw * img.naturalHeight) / img.naturalWidth);
+                    setVerticalSliderHeightPx(h);
+                  }
+                }}
+              />
             </div>
-          </div>
 
-          {/* 슬라이드 2 */}
-          <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 2">
-            <img src="/Homepage_3.png" alt="BIODE 미리보기 2" className="biode-vertical-slider__img" />
-            <div className="biode-vertical-slider__content biode-vertical-slider__content--slide2">
-              <p className="biode-vertical-slider__text biode-vertical-slider__text--column">
-                <span className="biode-vertical-slider__description">건강수명까지 생각한 비오드 바이오 테크널러지.</span>
-                <span className="biode-vertical-slider__title">가장 앞선 기술</span>
-              </p>
+            {/* 슬라이드 2 */}
+            <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 2">
+              <img
+                src="/slide2.png"
+                alt="BIODE 미리보기 2"
+                className="biode-vertical-slider__img"
+                onLoad={() => console.log('slide2.png 로드 성공')}
+                onError={(e) => console.error('slide2.png 로드 실패:', e)}
+              />
             </div>
-          </div>
 
-          {/* 슬라이드 3 */}
-          <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 3">
-            <img src="/Homepage_4.png" alt="BIODE 미리보기 3" className="biode-vertical-slider__img" />
-            <div className="biode-vertical-slider__content biode-vertical-slider__content--slide3">
-              <p className="biode-vertical-slider__text">
-                <span className="biode-vertical-slider__description">숫자가 말해주는 확실한 변화.</span>
-                <span className="biode-vertical-slider__title">증명을 해내다</span>
-              </p>
+            {/* 슬라이드 3 */}
+            <div className="biode-vertical-slider__slide" aria-label="미리보기 이미지 3">
+              <img
+                src="/slide3.png"
+                alt="BIODE 미리보기 3"
+                className="biode-vertical-slider__img"
+                onLoad={() => console.log('slide3.png 로드 성공')}
+                onError={(e) => console.error('slide3.png 로드 실패:', e)}
+              />
             </div>
+
           </div>
         </div>
       </section>

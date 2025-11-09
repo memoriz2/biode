@@ -24,9 +24,17 @@ export default function PortalLoginPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [currentUserType, setCurrentUserType] = useState<string>("guest");
+  const [redirectUrl, setRedirectUrl] = useState<string>("/portal");
 
-  // 현재 사용자 정보 가져오기
+  // 현재 사용자 정보 가져오기 및 redirect 파라미터 확인
   useEffect(() => {
+    // URL에서 redirect 파라미터 가져오기
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect");
+    if (redirect) {
+      setRedirectUrl(redirect);
+    }
+
     const fetchCurrentUser = async () => {
       try {
         const response = await fetch("/api/auth/me");
@@ -73,12 +81,8 @@ export default function PortalLoginPage() {
         // 현재 사용자 타입 업데이트
         setCurrentUserType(data.userType || "admin");
 
-        // 로그인 성공 후 대시보드로 이동하고 페이지 새로고침
-        router.push("/portal");
-        // 페이지 새로고침으로 사용자 정보 업데이트
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
+        // 로그인 성공 후 원래 페이지 또는 대시보드로 이동
+        window.location.href = redirectUrl;
       } else {
         alert(data.message || "로그인에 실패했습니다.");
       }

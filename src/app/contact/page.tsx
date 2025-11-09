@@ -96,7 +96,7 @@ export default function WowExperiencePage() {
         <img src="/contact/contact_01.png" className="pc" />
         <img src="/contact/m_contact_01.png" className="mobile" />
       </section>
-      <section className="contact">
+      <section className="contact" style={{ marginBottom: 0 }}>
         <div className="rows">
           <h3 className="contact-title">문의</h3>
           <div className="contact-wrap">

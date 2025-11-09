@@ -11,7 +11,7 @@ interface JWTPayload {
 
 export async function GET(request: NextRequest) {
   try {
-    const authToken = request.cookies.get("authToken")?.value;
+    const authToken = request.cookies.get("admin_token")?.value;
 
     if (!authToken) {
       return NextResponse.json({ userType: "guest" }, { status: 200 });

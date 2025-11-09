@@ -74,7 +74,7 @@
   }
 }
 
-/* 한 번에 이미지 하나씩 보이는 세로 슬라이더 (스크롤 스냅) */
+/* 한 번에 이미지 하나씩 보이는 세로 슬라이더 (자동 슬라이드) */
 .biode-vertical-slider {
   width: 100vw;           // 화면 폭에 맞춤
   position: relative;
@@ -85,49 +85,40 @@
   margin-top: 0;
   margin-bottom: 0;
   padding: 0;
+  background: #fff;       // 흰색 배경
 
   // PC에서는 숨김
   @media (min-width: 1024px) {
     display: none;
   }
 
-  &__viewport {
-    height: 100vh;                 // 섹션 = 뷰포트 높이
-    overflow-y: scroll;            // 스크롤 허용
-    scroll-snap-type: y mandatory; // 모바일: 스냅 고정
-    overscroll-behavior-y: auto;   // 스크롤 체이닝 허용
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;       // 프로그램틱 스크롤 시 부드럽게
-    -ms-overflow-style: none;      // IE/Edge 스크롤바 숨김
-    scrollbar-width: none;         // Firefox
-    &::-webkit-scrollbar { display: none; } // WebKit
+  &__wrapper {
+    height: 100vh;         // 뷰포트 높이
+    overflow: hidden;      // 넘치는 슬라이드 숨김
+    position: relative;
+  }
 
-    // 데스크톱: 스냅 없이 일반 스크롤 + 체이닝 허용
-    @media (min-width: 1024px) {
-      scroll-snap-type: none;        // 데스크톱에서는 스냅 제거
-      overscroll-behavior-y: auto;   // 스크롤 체이닝 완전 허용
-    }
+  &__track {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
   }
 
   &__slide {
-    scroll-snap-align: start;
-    min-height: auto;      // 이미지 높이에 맞춤
-    display: block;
+    flex-shrink: 0;
     padding: 0;
     margin: 0;
-    position: relative;    // 텍스트 오버레이를 위한 포지션
-
-    // 데스크톱에서는 스냅 제거
-    @media (min-width: 1024px) {
-      scroll-snap-align: none;
-    }
+    position: relative;
+    line-height: 0;        // 이미지 간격 제거
   }
 
   &__img {
     display: block;
-    width: 100vw;          // 뷰포트 폭에 정확히 맞춤
-    height: auto;          // 비율 유지, 세로 길이는 자동
-    object-fit: contain;   // 이미지 전체가 보이도록
+    width: 100vw;
+    height: auto;
+    margin: 0;
+    padding: 0;
   }
 
   // 슬라이드 텍스트 오버레이
