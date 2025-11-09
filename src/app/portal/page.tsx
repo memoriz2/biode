@@ -68,11 +68,6 @@ export default function AdminDashboard() {
     { intervalMs: 120000, enabled: true } // 2분마다 업데이트
   );
 
-  const { data: searchBotStats, loading: searchBotLoading } = useRealtimeStats(
-    () => fetch("/api/stats/searchbots").then((res) => res.json()),
-    { intervalMs: 120000, enabled: true }
-  );
-
   const { data: inquiryStats, loading: inquiryLoading } = useRealtimeStats(
     () => fetch("/api/stats/inquiries").then((res) => res.json()),
     { intervalMs: 120000, enabled: true }
@@ -82,15 +77,15 @@ export default function AdminDashboard() {
   const [lastUpdateTime, setLastUpdateTime] = useState<Date>(new Date());
 
   useEffect(() => {
-    if (visitorStats || searchBotStats || inquiryStats) {
+    if (visitorStats || inquiryStats) {
       setLastUpdateTime(new Date());
     }
-  }, [visitorStats, searchBotStats, inquiryStats]);
+  }, [visitorStats, inquiryStats]);
 
   // 통계 데이터 통합
   const stats: DashboardStats = {
     visitors: visitorStats || { total: 0, today: 0, thisWeek: 0, thisMonth: 0 },
-    searchBots: searchBotStats || {
+    searchBots: {
       total: 0,
       today: 0,
       thisWeek: 0,
@@ -188,7 +183,7 @@ export default function AdminDashboard() {
     fetchUserInfo();
   }, []);
 
-  if (loading || visitorLoading || searchBotLoading || inquiryLoading) {
+  if (loading || visitorLoading || inquiryLoading) {
     return (
       <section className="dashboard-loading" aria-label="로딩 중">
         <div className="loading-text" role="status" aria-live="polite">
@@ -245,7 +240,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* 방문자 통계 (상단 2개 큰 카드) */}
+      {/* 방문자 통계 */}
       <section className="visitor-stats-section" aria-label="방문자 통계">
         {/* 방문자 수 카드 */}
         <div className="card card-visitor-stats">
@@ -270,47 +265,6 @@ export default function AdminDashboard() {
             <div className="visitor-period">
               <span className="period-label">이번 달</span>
               <span className="period-value">{stats.visitors.thisMonth}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 검색봇 방문 수 카드 */}
-        <div className="card card-visitor-stats">
-          <div className="stat-accent-line"></div>
-          <div className="visitor-stat-header">
-            <div className="visitor-icon">🤖</div>
-            <div className="visitor-title">검색봇 방문</div>
-          </div>
-          <div className="visitor-main-number">
-            <AnimatedNumber value={stats.searchBots.total} />
-          </div>
-          <div className="visitor-main-label">총 봇 방문</div>
-          <div className="visitor-details">
-            <div className="visitor-period">
-              <span className="period-label">오늘</span>
-              <span className="period-value">{stats.searchBots.today}</span>
-            </div>
-            <div className="visitor-period">
-              <span className="period-label">이번 주</span>
-              <span className="period-value">{stats.searchBots.thisWeek}</span>
-            </div>
-            <div className="visitor-period">
-              <span className="period-label">이번 달</span>
-              <span className="period-value">{stats.searchBots.thisMonth}</span>
-            </div>
-          </div>
-          <div className="bot-tags">
-            <div className="tag-container">
-                                      {stats.searchBots.topBots.slice(0, 3).map((bot, index) => (
-                          <span key={index} className="bot-tag">
-                            {bot.name}
-                          </span>
-                        ))}
-              {stats.searchBots.topBots.length > 3 && (
-                <span className="bot-tag-more">
-                  +{stats.searchBots.topBots.length - 3}
-                </span>
-              )}
             </div>
           </div>
         </div>
