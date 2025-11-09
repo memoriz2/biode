@@ -28,7 +28,6 @@ export default function BannerManagementPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
     imageUrl: "",
     sortOrder: "0",
     isActive: true,
@@ -215,7 +214,6 @@ export default function BannerManagementPage() {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("title", formData.title);
-      formDataToSend.append("description", formData.description);
       formDataToSend.append("imageUrl", formData.imageUrl);
       formDataToSend.append("sortOrder", formData.sortOrder);
       formDataToSend.append("isActive", formData.isActive.toString());
@@ -232,7 +230,6 @@ export default function BannerManagementPage() {
       setShowAddForm(false);
       setFormData({
         title: "",
-        description: "",
         imageUrl: "",
         sortOrder: "0",
         isActive: true,
@@ -260,7 +257,6 @@ export default function BannerManagementPage() {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("title", formData.title);
-      formDataToSend.append("description", formData.description);
       formDataToSend.append("imageUrl", formData.imageUrl);
       formDataToSend.append("sortOrder", formData.sortOrder);
       formDataToSend.append("isActive", formData.isActive.toString());
@@ -278,7 +274,6 @@ export default function BannerManagementPage() {
       setEditingBanner(null);
       setFormData({
         title: "",
-        description: "",
         imageUrl: "",
         sortOrder: "0",
         isActive: true,
@@ -325,7 +320,6 @@ export default function BannerManagementPage() {
     setEditingBanner(bannerItem);
     setFormData({
       title: bannerItem.title,
-      description: bannerItem.description || "",
       imageUrl: bannerItem.imageUrl || "",
       sortOrder: bannerItem.sortOrder.toString(),
       isActive: bannerItem.isActive,
@@ -417,7 +411,6 @@ export default function BannerManagementPage() {
                     {banner.title}
                   </td>
                   <td className="max-w-xs truncate">
-                    {banner.description || "-"}
                   </td>
                   <td>
                     {banner.imageUrl ? (
@@ -530,12 +523,9 @@ export default function BannerManagementPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">
                 설명 (HTML 편집 가능)
               </label>
               <TipTapEditor
-                value={formData.description || ""}
-                onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
                 placeholder="배너에 대한 설명을 입력하세요. (선택사항)"
               />
             </div>
@@ -674,12 +664,9 @@ export default function BannerManagementPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="edit-description">
                 설명 (HTML 편집 가능)
               </label>
               <TipTapEditor
-                value={formData.description || ""}
-                onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
                 placeholder="배너에 대한 설명을 입력하세요. (선택사항)"
               />
             </div>
